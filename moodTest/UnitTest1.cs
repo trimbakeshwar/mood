@@ -1,8 +1,11 @@
 
 using moodanaliser;
+using moodanaliser.moodAnalysis;
 using MoodAnaliser;
 using NUnit.Framework;
 using System;
+using System.Reflection;
+
 namespace moodTest
 {
         public class moodAnalyzerTest
@@ -52,6 +55,38 @@ namespace moodTest
                 catch (moodAnalyseException exception)
                 {
                     Assert.AreEqual("please enter proper mood", exception.Message);
+                }
+            }
+            [Test]
+            public void checkForClassNotFound()
+            {
+                try
+                {
+                    moodAnalyserReflector<MoodAnalyzer> analyser = new moodAnalyserReflector<MoodAnalyzer>();
+                    var returnObject = analyser.dConstructor();
+                    var constructor = analyser.creteMoodAnalyser(returnObject, "mood");
+                }
+
+                catch (Exception e)
+                {
+                    Assert.AreEqual("class not found", e.Message);
+                }
+            }
+
+
+            [Test]
+            public void checkForMethodNotFound()
+            {
+                try
+                {
+                    moodAnalyserReflector<MoodAnalyzer> analyser = new moodAnalyserReflector<MoodAnalyzer>();
+                    var returnObject = analyser.dConstructor();
+                    ConstructorInfo mood = null;
+                    var constructor = analyser.creteMoodAnalyser(mood, "MoodAnalyzer");
+                }
+                catch (Exception e)
+                {
+                    Assert.AreEqual("method not found", e.Message);
                 }
             }
         }
