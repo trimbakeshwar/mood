@@ -1,4 +1,5 @@
-﻿using System;
+﻿using moodanaliser;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,7 +18,10 @@ namespace MoodAnaliser
         {
             try
             {
-
+                if (massage.Length == 0)
+                {
+                    throw new moodAnalyseException(moodAnalyseException.ExceptionType.EMPTY, "this is empty ,please enter proper mood");
+                }
                 if (massage.Contains("sad"))
                 {
                     return "sad";
@@ -28,9 +32,9 @@ namespace MoodAnaliser
                 }
 
             }
-            catch
+            catch (NullReferenceException e)
             {
-                return "happy";
+                throw new moodAnalyseException(moodAnalyseException.ExceptionType.NULL, "please enter proper mood");
             }
 
         }
