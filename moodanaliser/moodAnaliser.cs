@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace moodanaliser
+namespace MoodAnaliser
 {
     public class MoodAnalyzer
     {
@@ -15,14 +15,24 @@ namespace moodanaliser
 
         public string analyseTheMood()
         {
-            if (massage.Contains("sad"))
+            try
             {
-                return "sad";
+
+                if (massage.Contains("sad"))
+                {
+                    return "sad";
+                }
+                else
+                {
+                    return "happy";
+                }
+
             }
-            else
+            catch
             {
                 return "happy";
             }
+
         }
     }
 }
