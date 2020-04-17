@@ -107,5 +107,38 @@ namespace moodTest
                 Assert.IsInstanceOf(typeof(MoodAnalyzer), constructor);
 
             }
+        [Test]
+        public void checkForClassNotFoundForParameterisedConstructor()
+        {
+            try
+            {
+                moodAnalyserReflector<MoodAnalyzer> analyser = new moodAnalyserReflector<MoodAnalyzer>();
+                ConstructorInfo returnObject = analyser.ParameteriseConstructor(1);
+                object constructor = analyser.creteMoodAnalyser(returnObject, "mood","i am in sad mood");
+            }
+
+            catch (Exception e)
+            {
+                Assert.AreEqual("class not found", e.Message);
+            }
         }
+
+
+        [Test]
+        public void checkForMethodNotFoundForParameterisedConstructor()
+        {
+            try
+            {
+                moodAnalyserReflector<MoodAnalyzer> analyser = new moodAnalyserReflector<MoodAnalyzer>();
+                ConstructorInfo returnObject = analyser.ParameteriseConstructor(1);
+                ConstructorInfo mood = null;
+                object constructor = analyser.creteMoodAnalyser(mood, "MoodAnalyzer","i am in sad mood");
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("method not found", e.Message);
+            }
+        }
+
     }
+}
