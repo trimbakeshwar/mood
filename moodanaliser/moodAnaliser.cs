@@ -9,6 +9,10 @@ namespace MoodAnaliser
     {
         private string massage;
 
+        public MoodAnalyzer()
+        {
+        }
+
         public MoodAnalyzer(string massage)
         {
             this.massage = massage;

@@ -1,6 +1,5 @@
 
 using moodanaliser;
-using moodanaliser.moodAnalysis;
 using MoodAnaliser;
 using NUnit.Framework;
 using System;
@@ -58,13 +57,22 @@ namespace moodTest
                 }
             }
             [Test]
+            public void checkFordefaultConstructor()
+            {
+                MoodAnalyzer mod = new MoodAnalyzer();
+                moodAnalyserReflector<MoodAnalyzer> analyser = new moodAnalyserReflector<MoodAnalyzer>();
+                ConstructorInfo returnObject = analyser.dConstructor();
+                object constructor = analyser.creteMoodAnalyser(returnObject, "MoodAnalyzer");
+                Assert.IsInstanceOf(typeof(MoodAnalyzer), constructor);
+            }
+            [Test]
             public void checkForClassNotFound()
             {
                 try
                 {
                     moodAnalyserReflector<MoodAnalyzer> analyser = new moodAnalyserReflector<MoodAnalyzer>();
-                    var returnObject = analyser.dConstructor();
-                    var constructor = analyser.creteMoodAnalyser(returnObject, "mood");
+                ConstructorInfo returnObject = analyser.dConstructor();
+                    object constructor = analyser.creteMoodAnalyser(returnObject, "mood");
                 }
 
                 catch (Exception e)
@@ -80,14 +88,24 @@ namespace moodTest
                 try
                 {
                     moodAnalyserReflector<MoodAnalyzer> analyser = new moodAnalyserReflector<MoodAnalyzer>();
-                    var returnObject = analyser.dConstructor();
+                    ConstructorInfo returnObject = analyser.dConstructor();
                     ConstructorInfo mood = null;
-                    var constructor = analyser.creteMoodAnalyser(mood, "MoodAnalyzer");
+                    object constructor = analyser.creteMoodAnalyser(mood, "MoodAnalyzer");
                 }
                 catch (Exception e)
                 {
                     Assert.AreEqual("method not found", e.Message);
                 }
+            }
+            [Test]
+            public void checkForParamterisedConstructor()
+            {
+                MoodAnalyzer mod = new MoodAnalyzer("i am in sad mood");
+                moodAnalyserReflector<MoodAnalyzer> analyser = new moodAnalyserReflector<MoodAnalyzer>();
+                ConstructorInfo returnObject = analyser.ParameteriseConstructor(1);  
+                object constructor = analyser.creteMoodAnalyser(returnObject, "MoodAnalyzer", "i am in sad mood");
+                Assert.IsInstanceOf(typeof(MoodAnalyzer), constructor);
+
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MoodAnaliser;
+using System;
+using System.Reflection;
 
 namespace moodanaliser
 {
@@ -6,7 +8,6 @@ namespace moodanaliser
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
         }
     }
 }

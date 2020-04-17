@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace moodanaliser
 {
-
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Text;
-
-    namespace moodAnalysis
-    {
         public class moodAnalyserReflector<T>
         {
-            public object creteMoodAnalyser(ConstructorInfo constructor, string NameOfClass)
+            public object creteMoodAnalyser( ConstructorInfo constructor, string NameOfClass)
             {
                 try
                 {
@@ -43,7 +36,27 @@ namespace moodanaliser
                     throw new moodAnalyseException(moodAnalyseException.ExceptionType.NO_OBJECT_CREATED, ex.Message);
                 }
             }
-            public ConstructorInfo dConstructor()
+        public object creteMoodAnalyser(ConstructorInfo constructor, string NameOfClass, string message)
+        {
+            Type type = typeof(T);
+            Console.WriteLine("name " + type.Name);
+            Console.WriteLine("name const " + constructor);
+            Console.WriteLine("name getconst " + type.GetConstructors()[1]);
+            if (NameOfClass != type.Name)
+            {
+                throw new moodAnalyseException(moodAnalyseException.ExceptionType.CLASS_NOT_FOUND, "class not found");
+            }
+            if (constructor != type.GetConstructors()[1])
+            {
+                throw new moodAnalyseException(moodAnalyseException.ExceptionType.METHOD_NOT_FOUND, "method not found");
+            }
+            object ReturnObject = Activator.CreateInstance(type, message);
+            Console.WriteLine("name return object " + ReturnObject);
+            return ReturnObject;
+
+        }
+  
+        public ConstructorInfo dConstructor()
             {
                 try
                 {
@@ -65,6 +78,27 @@ namespace moodanaliser
 
                 }
             }
+        public ConstructorInfo ParameteriseConstructor(int noOfParameter)
+        {
+            try
+            {
+                Type type = typeof(T);
+                ConstructorInfo[] constructor = type.GetConstructors();
+                foreach (ConstructorInfo c in constructor)
+                {
+                    if (c.GetParameters().Length == noOfParameter)
+                    {
+                        Console.WriteLine(c);
+                        return c;
+                    }
+                }
+                return constructor[0];
+            }
+            catch (Exception e)
+            {
+                throw new moodAnalyseException(moodAnalyseException.ExceptionType.CLASS_NOT_FOUND, "this class not available");
+
+            }
         }
     }
-}
+    }
