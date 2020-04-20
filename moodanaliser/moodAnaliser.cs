@@ -49,6 +49,7 @@ namespace MoodAnaliser
             {
                 throw new moodAnalyseException(moodAnalyseException.ExceptionType.NULL, "please enter proper mood");
             }
+           
 
         }
     }

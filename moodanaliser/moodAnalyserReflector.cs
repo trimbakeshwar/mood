@@ -70,10 +70,11 @@ namespace MoodAnaliser
                 return ReturnObject;
             }
             //handle exception in vatch block
-            catch (Exception ex)
+            catch (moodAnalyseException ex)
             {
                 throw new moodAnalyseException(moodAnalyseException.ExceptionType.NO_OBJECT_CREATED, ex.Message);
             }
+
 
         }
         /// <summary>
@@ -98,10 +99,14 @@ namespace MoodAnaliser
                 }
                 return constructor[0];
             }//if the class is not found then throwss exception and catch it and show message class is not available
-            catch (Exception e)
+            catch (moodAnalyseException e)
             {
                 throw new moodAnalyseException(moodAnalyseException.ExceptionType.CLASS_NOT_FOUND, "this class not available");
 
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
         /// <summary>
@@ -126,12 +131,16 @@ namespace MoodAnaliser
                         return c;
                     }
                 }
-                return constructor[0];
+                return constructor[1];
             }
             //if excpetion created then hande in cathch block
-            catch (Exception e)
+            catch (moodAnalyseException e)
             {
                 throw new moodAnalyseException(moodAnalyseException.ExceptionType.CLASS_NOT_FOUND, "this class not available");
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
         /// <summary>
@@ -150,11 +159,11 @@ namespace MoodAnaliser
                 //get method from type if string is match with method then ok otherwise throws method not found
                 MethodInfo method = type.GetMethod("analyseTheMood");
                 //if mood is null then throws enter proper mood exception
-                if (mood is null)
+                if (mood == null)
                 {
                     throw new moodAnalyseException(moodAnalyseException.ExceptionType.NULL, "enter proper input");
                 }
-                else if (method is null)
+                else if (method == null)
                 {
                     throw new moodAnalyseException(moodAnalyseException.ExceptionType.NO_SUCH_FIELD, "no such method");
                 }
@@ -162,9 +171,13 @@ namespace MoodAnaliser
                 return mood;
             }
             //throws exception catch in catch block 
-            catch (Exception e)
+            catch (moodAnalyseException e)
             {
                 throw new moodAnalyseException(moodAnalyseException.ExceptionType.NO_SUCH_FIELD, e.Message);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }
